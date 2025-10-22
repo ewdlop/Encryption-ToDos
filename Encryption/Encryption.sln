@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36221.1 d17.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Encryption", "Encryption.csproj", "{5DFFCD7B-0585-40F8-9B25-6FB2D04E4FE6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "xUnitTestEncryptionProject", "..\xUnitTestEncryptionProject\xUnitTestEncryptionProject.csproj", "{47317EAA-423C-4F23-A7EF-13B49A727EA7}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5DFFCD7B-0585-40F8-9B25-6FB2D04E4FE6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5DFFCD7B-0585-40F8-9B25-6FB2D04E4FE6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5DFFCD7B-0585-40F8-9B25-6FB2D04E4FE6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5DFFCD7B-0585-40F8-9B25-6FB2D04E4FE6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{47317EAA-423C-4F23-A7EF-13B49A727EA7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{47317EAA-423C-4F23-A7EF-13B49A727EA7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{47317EAA-423C-4F23-A7EF-13B49A727EA7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{47317EAA-423C-4F23-A7EF-13B49A727EA7}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6B4DAF62-8BD9-4369-89A0-226BB7D91D9F}
+	EndGlobalSection
+EndGlobal
