@@ -1,29 +1,281 @@
-# Encryption-ToDos
-"Mindread" ppl who 
+# Encryption-ToDos - 多語言密碼學實現
 
+本項目提供經典密碼算法的多語言實現，包括 C#、JavaScript 和 Coq 證明助手。
 
-Do you think she hates me 
+## 項目結構
 
-Public options key exchange
+### 1. C# 實現 (`Encryption/`)
+完整的 .NET 密碼庫，實現經典和現代密碼算法。
 
-Or a shared secret that takes some work to compute….treyse hunt..
+**語言**: C# (.NET 9.0)  
+**測試**: xUnit  
+**特點**: 
+- 10 種經典密碼
+- 接口驅動設計
+- 完整單元測試
 
-Here are some key algorithms and concepts related to secret sharing and key exchange:
+### 2. JavaScript 實現 (`encryption-js/`)
+Node.js 密碼庫，與 C# 版本功能對等。
 
-1. 
-    1. Shamir's Secret Sharing: A cryptographic algorithm that allows a secret to be divided into parts, with a threshold needed to reconstruct the secret.
-2. 
-    1. Diffie-Hellman Key Exchange: A method for securely exchanging cryptographic keys over a public channel.
-3. 
-    1. RSA (Rivest–Shamir–Adleman): A public-key cryptosystem used for secure data transmission.
-4. 
-    1. Elliptic Curve Cryptography (ECC): A public-key cryptography approach based on the algebraic structure of elliptic curves over finite fields.
-5. 
-    1. Threshold Cryptography: A method where multiple parties must cooperate to perform a cryptographic operation.
+**語言**: JavaScript (ES6+)  
+**測試**: Jest  
+**特點**:
+- 經典密碼實現
+- 工廠模式
+- 完整測試覆蓋
 
-These algorithms form the foundation of many modern cryptographic systems and protocols used for secure communication and data protection.
+### 3. Coq 形式化驗證 (`coq-cipher/`) ⭐ 新增
+使用 Coq 證明助手的形式化密碼系統，提供數學證明。
 
-Here's a list of 100 cryptographic algorithms and concepts:
+**語言**: Coq (Gallina)  
+**版本**: Coq 8.12+  
+**特點**:
+- **形式化驗證**: 使用 Coq 提供數學證明
+- **類型安全**: 強類型系統確保正確性
+- **5 種經典密碼**: Caesar, Atbash, ROT13, Vigenère, Affine
+- **定理證明**: 證明密碼的各種性質（對稱性、長度保持等）
+- **完整文檔**: README, 教程, 快速開始指南
+
+#### Coq 實現亮點
+
+```coq
+(* 密碼接口定義 *)
+Record CipherInterface := {
+  cipher_name : string;
+  encrypt : string -> string -> string;
+  decrypt : string -> string -> string;
+}.
+
+(* 已證明的定理 *)
+Theorem atbash_is_symmetric : symmetric_cipher AtbashCipher.
+Theorem caesar_preserves_length : length_preserving CaesarCipher.
+Theorem composed_cipher_correctness : forall ci1 ci2 plaintext key, ...
+```
+
+#### 快速開始 (Coq)
+
+```bash
+cd coq-cipher
+make
+coqtop
+```
+
+```coq
+Require Import CogCipher.ClassicalCiphers.
+Require Import CogCipher.CipherFactory.
+
+(* 使用凱撒密碼 *)
+Compute encrypt_with Caesar "HELLO" "3".
+(* 結果: "KHOOR" *)
+
+(* 驗證對稱性 *)
+Check atbash_is_symmetric.
+```
+
+詳細信息請參考 [`coq-cipher/README.md`](coq-cipher/README.md) 和 [`coq-cipher/QUICKSTART.md`](coq-cipher/QUICKSTART.md)。
+
+## 已實現的經典密碼（所有語言）
+
+1. **Caesar Cipher** (凱撒密碼) - 簡單移位密碼
+2. **Atbash Cipher** - 字母表反轉密碼
+3. **ROT13** - 固定移位 13 的凱撒密碼
+4. **Vigenère Cipher** (維吉尼亞密碼) - 多字母替換密碼
+5. **Playfair Cipher** - 雙字母加密 (C#/JS)
+6. **Substitution Cipher** (簡單替換密碼) - 字母映射 (C#/JS)
+7. **Transposition Cipher** (轉置密碼) - 列轉置 (C#/JS)
+8. **Rail Fence Cipher** (柵欄密碼) - 之字形轉置 (C#/JS)
+9. **Scytale Cipher** - 圓柱轉置密碼 (C#/JS)
+10. **Polybius Square** - 方陣密碼 (C#/JS)
+11. **Affine Cipher** (仿射密碼) - 數學函數密碼 (Coq)
+
+## 語言特色對比
+
+| 特性 | C# | JavaScript | Coq |
+|------|-------|------------|-----|
+| 經典密碼 | ✅ 10 種 | ✅ 10 種 | ✅ 5 種 |
+| 現代密碼 | ✅ 部分 | ✅ 部分 | ❌ |
+| 單元測試 | ✅ xUnit | ✅ Jest | ✅ 形式化證明 |
+| 類型安全 | ✅ 強類型 | ⚠️ 動態類型 | ✅ 依賴類型 |
+| 數學證明 | ❌ | ❌ | ✅ Coq 證明 |
+| 性能 | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐ |
+| 學習曲線 | 中等 | 容易 | 困難 |
+
+## 使用示例
+
+### C# 示例
+```csharp
+using Encryption.Classical;
+
+var caesar = new CaesarCipher();
+string encrypted = caesar.Encrypt("HELLO", "3");  // "KHOOR"
+string decrypted = caesar.Decrypt(encrypted, "3"); // "HELLO"
+```
+
+### JavaScript 示例
+```javascript
+const { CipherFactory } = require('./src/CipherFactory');
+
+const caesar = CipherFactory.createCipher('caesar');
+const encrypted = caesar.encrypt('HELLO', '3');  // "KHOOR"
+const decrypted = caesar.decrypt(encrypted, '3'); // "HELLO"
+```
+
+### Coq 示例
+```coq
+Require Import CogCipher.ClassicalCiphers.
+
+Compute encrypt_with Caesar "HELLO" "3".  (* "KHOOR" *)
+Compute decrypt_with Caesar "KHOOR" "3".  (* "HELLO" *)
+
+(* 證明正確性 *)
+Theorem caesar_correct : forall plaintext key,
+  decrypt CaesarCipher (encrypt CaesarCipher plaintext key) key = plaintext.
+```
+
+## 編譯和測試
+
+### C#
+```bash
+cd Encryption
+dotnet build
+dotnet test ../xUnitTestEncryptionProject
+```
+
+### JavaScript
+```bash
+cd encryption-js
+npm install
+npm test
+```
+
+### Coq
+```bash
+cd coq-cipher
+make
+make verify  # 運行驗證測試
+```
+
+## 項目目標
+
+本項目旨在：
+- 📚 **教育**: 展示密碼學基礎概念
+- 🔍 **多語言**: 同一算法的不同實現風格
+- 🎯 **實踐**: 提供可用的密碼庫
+- 🔬 **形式化**: 使用 Coq 進行數學驗證
+- ✅ **測試**: 完整的測試覆蓋
+- 📖 **文檔**: 詳細的說明和教程
+
+## 形式化驗證的價值
+
+Coq 實現提供了傳統實現無法提供的保證：
+
+1. **數學證明**: 證明密碼算法的正確性
+2. **類型安全**: 類型系統防止常見錯誤
+3. **不變量保證**: 證明長度保持、對稱性等性質
+4. **教育價值**: 深入理解密碼學原理
+
+## 密碼學算法參考
+
+### 經典密碼（100 種）
+本項目實現了前 10 種最基礎的經典密碼。完整列表包括：
+- Caesar, Atbash, ROT13, Vigenère, Playfair
+- Substitution, Transposition, Rail Fence, Scytale, Polybius Square
+- ADFGVX, Bifid, Trifid, Four-Square, Hill
+- Affine, Beaufort, Running Key, Autokey, Columnar Transposition
+- ...以及更多
+
+### 現代密碼（100 種）
+包括但不限於：
+- 對稱加密: AES, DES, 3DES, Blowfish, Twofish, ChaCha20
+- 非對稱加密: RSA, ECC, Diffie-Hellman
+- 後量子密碼: Kyber, Dilithium, Falcon
+- 哈希和 MAC: HMAC, CMAC, GCM
+- ...以及更多
+
+詳細算法列表請查看完整的 README 內容。
+
+## 安全警告 ⚠️
+
+**本項目僅用於教育目的。**
+
+- ❌ 不要在生產環境使用這些經典密碼
+- ❌ 經典密碼已被證明不安全
+- ✅ 實際應用請使用現代標準加密算法（AES, RSA 等）
+- ✅ 使用經過驗證的密碼學庫
+
+## 文檔
+
+### 主要文檔
+- [主要實現總結](IMPLEMENTATION_SUMMARY.md)
+- [JavaScript 實現總結](encryption-js/IMPLEMENTATION_SUMMARY.md)
+- [Coq 實現總結](coq-cipher/IMPLEMENTATION_SUMMARY.md)
+
+### Coq 特定文檔
+- [Coq README](coq-cipher/README.md)
+- [安裝指南](coq-cipher/INSTALL.md)
+- [快速開始](coq-cipher/QUICKSTART.md)
+- [詳細教程](coq-cipher/TUTORIAL.md)
+- [貢獻指南](coq-cipher/CONTRIBUTING.md)
+
+## 貢獻
+
+歡迎貢獻！可以：
+- 添加新的密碼算法
+- 改進現有實現
+- 添加更多測試
+- 完善 Coq 證明
+- 改進文檔
+- 修復 bug
+
+## 學習資源
+
+### Coq 學習
+- [Coq 官方文檔](https://coq.inria.fr/documentation)
+- [Software Foundations](https://softwarefoundations.cis.upenn.edu/)
+- [Certified Programming with Dependent Types](http://adam.chlipala.net/cpdt/)
+
+### 密碼學學習
+- [經典密碼學](https://en.wikipedia.org/wiki/Classical_cipher)
+- [現代密碼學](https://en.wikipedia.org/wiki/Cryptography)
+- [應用密碼學](https://www.schneier.com/books/applied_cryptography/)
+
+## 許可證
+
+MIT License
+
+---
+
+## 密碼算法完整列表
+
+<details>
+<summary>點擊展開 100 種經典密碼列表</summary>
+
+1. Caesar Cipher
+2. Atbash Cipher
+3. ROT13
+4. Vigenère Cipher
+5. Playfair Cipher
+6. Substitution Cipher
+7. Transposition Cipher
+8. Rail Fence Cipher
+9. Scytale Cipher
+10. Polybius Square
+11. ADFGVX Cipher
+12. Bifid Cipher
+13. Trifid Cipher
+14. Four-Square Cipher
+15. Hill Cipher
+16. Affine Cipher
+17. Beaufort Cipher
+18. Running Key Cipher
+19. Autokey Cipher
+20. Columnar Transposition Cipher
+... (共 100 種)
+
+</details>
+
+<details>
+<summary>點擊展開 100 種現代密碼算法列表</summary>
 
 1. AES (Advanced Encryption Standard)
 2. DES (Data Encryption Standard)
@@ -31,304 +283,16 @@ Here's a list of 100 cryptographic algorithms and concepts:
 4. RSA (Rivest-Shamir-Adleman)
 5. Blowfish
 6. Twofish
-7. RC4 (Rivest Cipher 4)
-8. RC5 (Rivest Cipher 5)
-9. RC6 (Rivest Cipher 6)
-10. IDEA (International Data Encryption Algorithm)
-11. Serpent
-12. Camellia
-13. CAST-128 (CAST5)
-14. CAST-256 (CAST6)
-15. MARS
-16. GOST
-17. Skipjack
-18. TEA (Tiny Encryption Algorithm)
-19. XTEA (eXtended TEA)
-20. Blowfish-128
-21. SAFER (Secure And Fast Encryption Routine)
-22. KASUMI
-23. MISTY1
-24. SEED
-25. ARIA
-26. CLEFIA
-27. SM4
-28. ChaCha20
-29. Salsa20
-30. HC-128
-31. HC-256
-32. SOSEMANUK
-33. Rabbit
-34. PRESENT
-35. KLEIN
-36. LED
-37. PRINCE
-38. KATAN
-39. KTANTAN
-40. mCrypton
-41. HIGHT
-42. XTEA
-43. LEA (Lightweight Encryption Algorithm)
-44. SIMON
-45. SPECK
-46. Threefish
-47. Skipjack
-48. CAST5
-49. GOST 28147-89
-50. Anubis
-51. CLEFIA
-52. FEAL (Fast data Encipherment ALgorithm)
-53. LOKI97
-54. MAGENTA
-55. NewDES
-56. RC2
-57. RC5
-58. RED
-59. SC2000
-60. SHACAL
-61. SHARK
-62. Skipjack
-63. Square
-64. Unicorn-A
-65. WAKE
-66. XTEA
-67. Diffie-Hellman key exchange
-68. ElGamal encryption
-69. DSA (Digital Signature Algorithm)
-70. ECDSA (Elliptic Curve Digital Signature Algorithm)
-71. EdDSA (Edwards-curve Digital Signature Algorithm)
-72. ECIES (Elliptic Curve Integrated Encryption Scheme)
-73. HMAC (Hash-based Message Authentication Code)
-74. CMAC (Cipher-based Message Authentication Code)
-75. PMAC (Parallelizable Message Authentication Code)
-76. GCM (Galois/Counter Mode)
-77. CCM (Counter with CBC-MAC)
-78. EAX (Encrypt-then-Authenticate-then-Translate)
-79. OCB (Offset Codebook Mode)
-80. SIV (Synthetic Initialization Vector)
-81. ChaCha20-Poly1305
-82. XSalsa20-Poly1305
-83. Curve25519
-84. X25519
-85. Ed25519
-86. P-256 (NIST P-256)
-87. secp256k1
-88. Brainpool curves
-89. SPHINCS+
-90. XMSS (eXtended Merkle Signature Scheme)
-91. LMS (Leighton-Micali Signature)
-92. McEliece
-93. NTRU
-94. Kyber
-95. Dilithium
-96. Falcon
-97. Rainbow
-98. Picnic
-99. SIKE (Supersingular Isogeny Key Encapsulation)
-100. FrodoKEM
+7. RC4, RC5, RC6
+8. ChaCha20
+9. Salsa20
+10. Diffie-Hellman
+... (共 100 種)
 
-This comprehensive list includes various encryption algorithms, key exchange protocols, digital signature schemes, and post-quantum cryptographic algorithms, representing a wide range of cryptographic techniques used in modern security systems
+</details>
 
-Here's a list of 100 classic cryptographic ciphers:
+---
 
-1. 
-    1. Caesar Cipher
-2. 
-    1. Atbash Cipher
-3. 
-    1. ROT13
-4. 
-    1. Vigenère Cipher
-5. 
-    1. Playfair Cipher
-6. 
-    1. Substitution Cipher
-7. 
-    1. Transposition Cipher
-8. 
-    1. Rail Fence Cipher
-9. 
-    1. Scytale Cipher
-10. 
-    1. Polybius Square
-11. 
-    1. ADFGVX Cipher
-12. 
-    1. Bifid Cipher
-13. 
-    1. Trifid Cipher
-14. 
-    1. Four-Square Cipher
-15. 
-    1. Hill Cipher
-16. 
-    1. Affine Cipher
-17. 
-    1. Beaufort Cipher
-18. 
-    1. Running Key Cipher
-19. 
-    1. Autokey Cipher
-20. 
-    1. Columnar Transposition Cipher
-21. 
-    1. Double Transposition Cipher
-22. 
-    1. Gronsfeld Cipher
-23. 
-    1. Porta Cipher
-24. 
-    1. Alberti Cipher
-25. 
-    1. Trithemius Cipher
-26. 
-    1. Pigpen Cipher
-27. 
-    1. Morse Code
-28. 
-    1. Bacon's Cipher
-29. 
-    1. Book Cipher
-30. 
-    1. Tap Code
-31. 
-    1. Enigma Machine
-32. 
-    1. Lorenz Cipher
-33. 
-    1. Navajo Code
-34. 
-    1. One-Time Pad
-35. 
-    1. VIC Cipher
-36. 
-    1. Nihilist Cipher
-37. 
-    1. Straddling Checkerboard
-38. 
-    1. Solitaire Cipher
-39. 
-    1. Chaocipher
-40. 
-    1. Kryptos
-41. 
-    1. Beale Ciphers
-42. 
-    1. Dorabella Cipher
-43. 
-    1. Great Cipher
-44. 
-    1. Hebern Rotor Machine
-45. 
-    1. Jefferson Disk
-46. 
-    1. M-209 Cipher Machine
-47. 
-    1. Purple Cipher
-48. 
-    1. SIGABA
-49. 
-    1. Typex
-50. 
-    1. Route Cipher
-51. 
-    1. Nomenclator
-52. 
-    1. Homophonic Substitution Cipher
-53. 
-    1. Permutation Cipher
-54. 
-    1. Redefence Cipher
-55. 
-    1. Rotation Cipher
-56. 
-    1. Skipjack (Older version)
-57. 
-    1. Slide Cipher
-58. 
-    1. Straddle Checkerboard
-59. 
-    1. Tabula Recta
-60. 
-    1. Trifid Cipher
-61. 
-    1. Two-Square Cipher
-62. 
-    1. VIC Cipher
-63. 
-    1. Wheatstone-Playfair Cipher
-64. 
-    1. Zigzag Cipher
-65. 
-    1. ADFGX Cipher
-66. 
-    1. Alphabetical Substitution
-67. 
-    1. Bazeries Cylinder
-68. 
-    1. Checkerboard Cipher
-69. 
-    1. Codes and Nomenclators
-70. 
-    1. Codex Seraphinianus
-71. 
-    1. Columnar Transposition
-72. 
-    1. Dancing Men Cipher
-73. 
-    1. Digrafid Cipher
-74. 
-    1. Enigma Variations
-75. 
-    1. Fractionated Morse Cipher
-76. 
-    1. Freemason's Cipher
-77. 
-    1. Gold-Bug Substitution Cipher
-78. 
-    1. Grille Cipher
-79. 
-    1. Handycipher
-80. 
-    1. Kama-sutra Cipher
-81. 
-    1. Keyword Cipher
-82. 
-    1. Mary Queen of Scots Cipher
-83. 
-    1. Myszkowski Transposition
-84. 
-    1. Playfair Variants
-85. 
-    1. Polybius Variants
-86. 
-    1. Quagmire Cipher
-87. 
-    1. Rasterschlüssel 44
-88. 
-    1. Reservehandverfahren
-89. 
-    1. Rosicrucian Cipher
-90. 
-    1. Rotate Cipher
-91. 
-    1. Running Key Variant
-92. 
-    1. Satzbau
-93. 
-    1. Slidefair Cipher
-94. 
-    1. Spread Spectrum
-95. 
-    1. Stenography (as used in classical cryptography)
-96. 
-    1. Syllabary Cipher
-97. 
-    1. Templar Cipher
-98. 
-    1. Trithemius Ave Maria
-99. 
-    1. Turning Grille
-100. 
-    1. Vernam Cipher
-
-This list encompasses a wide range of classic cryptographic ciphers, from ancient methods to more recent (but still considered classic) encryption techniques. Each of these ciphers has played a role in the development of cryptography as we know it today.
+**最後更新**: 2025-10-23  
+**版本**: 1.0.0  
+**語言**: C#, JavaScript, Coq

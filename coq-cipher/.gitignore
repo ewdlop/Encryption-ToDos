@@ -1,0 +1,42 @@
+# Coq compiled files
+*.vo
+*.vok
+*.vos
+*.glob
+*.aux
+.*.aux
+
+# Coq Makefile
+Makefile.coq
+Makefile.coq.conf
+.coq-native/
+.lia.cache
+.nia.cache
+
+# IDE files
+.coqide
+*.crashcoqide
+
+# Build artifacts
+*.cm[ioxt]
+*.cmti
+*.cmt
+*.cmx
+*.o
+*.a
+*.so
+*.dylib
+
+# Editor files
+*~
+*.swp
+*.swo
+.DS_Store
+.vscode/
+.idea/
+
+# Temporary files
+*.bak
+*.tmp
+
+
