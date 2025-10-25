@@ -93,9 +93,9 @@ namespace Encryption
 
         /// <summary>
         /// 從規範字符串編譯組合密碼
-        /// 格式: "CipherName1 | CipherName2 | CipherName3"
+        /// 格式: "Caesar Cipher | Atbash Cipher | ROT13 Cipher"
         /// Compile from specification string
-        /// Format: "CipherName1 | CipherName2 | CipherName3"
+        /// Format: "Caesar Cipher | Atbash Cipher | ROT13 Cipher"
         /// </summary>
         public static ComposedCipher CompileFromSpec(string specification)
         {

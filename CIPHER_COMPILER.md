@@ -103,6 +103,10 @@ var composed = CipherCompiler.CreateBuilder()
     .AddRailFence()
     .WithName("MyEncryption")
     .Build();
+
+string encrypted = composed.Encrypt("HELLO", "3");
+string decrypted = composed.Decrypt(encrypted, "3");
+Console.WriteLine($"Decrypted: {decrypted}"); // Output: HELLO
 ```
 
 ### 規範解析 (Specification Parsing)

@@ -29,7 +29,7 @@ string decrypted = cipher.Decrypt(encrypted, "3");
 **語言**: C# (.NET 9.0)  
 **測試**: xUnit  
 **特點**: 
-- 200+ 種密碼算法
+- 220 種密碼算法
 - 接口驅動設計
 - **Encryption Compiler** ⭐ 新增
 - 完整單元測試
@@ -112,7 +112,7 @@ Check atbash_is_symmetric.
 
 | 特性 | C# | JavaScript | Coq |
 |------|-------|------------|-----|
-| 經典密碼 | ✅ 200+ 種 | ✅ 10 種 | ✅ 5 種 |
+| 經典密碼 | ✅ 220 種 | ✅ 10 種 | ✅ 5 種 |
 | 現代密碼 | ✅ 部分 | ✅ 部分 | ❌ |
 | 密碼編譯器 | ✅ | ❌ | ❌ |
 | 單元測試 | ✅ xUnit | ✅ Jest | ✅ 形式化證明 |
