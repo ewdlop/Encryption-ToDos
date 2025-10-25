@@ -2,6 +2,25 @@
 
 本項目提供經典密碼算法的多語言實現，包括 C#、JavaScript 和 Coq 證明助手。
 
+## 🆕 最新功能: Encryption Compiler
+
+**Encryption Compiler** 允許您組合多個密碼算法，創建複雜的加密鏈！
+
+```csharp
+// 使用流暢 API 構建加密鏈
+var cipher = CipherCompiler.CreateBuilder()
+    .AddCaesar()
+    .AddAtbash()
+    .AddROT13()
+    .WithName("MyCustomEncryption")
+    .Build();
+
+string encrypted = cipher.Encrypt("HELLO", "3");
+string decrypted = cipher.Decrypt(encrypted, "3");
+```
+
+📖 查看 [完整文檔](CIPHER_COMPILER.md) 了解更多詳情。
+
 ## 項目結構
 
 ### 1. C# 實現 (`Encryption/`)
@@ -10,8 +29,9 @@
 **語言**: C# (.NET 9.0)  
 **測試**: xUnit  
 **特點**: 
-- 10 種經典密碼
+- 200+ 種密碼算法
 - 接口驅動設計
+- **Encryption Compiler** ⭐ 新增
 - 完整單元測試
 
 ### 2. JavaScript 實現 (`encryption-js/`)
@@ -92,8 +112,9 @@ Check atbash_is_symmetric.
 
 | 特性 | C# | JavaScript | Coq |
 |------|-------|------------|-----|
-| 經典密碼 | ✅ 10 種 | ✅ 10 種 | ✅ 5 種 |
+| 經典密碼 | ✅ 200+ 種 | ✅ 10 種 | ✅ 5 種 |
 | 現代密碼 | ✅ 部分 | ✅ 部分 | ❌ |
+| 密碼編譯器 | ✅ | ❌ | ❌ |
 | 單元測試 | ✅ xUnit | ✅ Jest | ✅ 形式化證明 |
 | 類型安全 | ✅ 強類型 | ⚠️ 動態類型 | ✅ 依賴類型 |
 | 數學證明 | ❌ | ❌ | ✅ Coq 證明 |
@@ -102,7 +123,7 @@ Check atbash_is_symmetric.
 
 ## 使用示例
 
-### C# 示例
+### C# 基本示例
 ```csharp
 using Encryption.Classical;
 
@@ -110,6 +131,33 @@ var caesar = new CaesarCipher();
 string encrypted = caesar.Encrypt("HELLO", "3");  // "KHOOR"
 string decrypted = caesar.Decrypt(encrypted, "3"); // "HELLO"
 ```
+
+### C# Encryption Compiler 示例
+
+使用 Encryption Compiler 組合多個密碼：
+
+```csharp
+using Encryption;
+
+// 方法 1: 使用流暢 API
+var cipher = CipherCompiler.CreateBuilder()
+    .AddCaesar()
+    .AddAtbash()
+    .AddROT13()
+    .WithName("TripleEncryption")
+    .Build();
+
+string encrypted = cipher.Encrypt("HELLO", "3");
+string decrypted = cipher.Decrypt(encrypted, "3");
+
+// 方法 2: 從規範字符串
+var cipher2 = CipherCompiler.CompileFromSpec("Caesar Cipher | Atbash Cipher | ROT13 Cipher");
+
+// 方法 3: 命名規範
+var cipher3 = CipherSpecification.Parse("SecureEncryption: Caesar Cipher | Vigenère Cipher");
+```
+
+查看 [完整 Encryption Compiler 文檔](CIPHER_COMPILER.md) 了解更多示例。
 
 ### JavaScript 示例
 ```javascript
