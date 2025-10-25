@@ -19,6 +19,8 @@ string encrypted = cipher.Encrypt("HELLO", "3");
 string decrypted = cipher.Decrypt(encrypted, "3");
 ```
 
+### Reduce the encryption graph for indundant decrypting graph. More doesn't necessarily make it more security.
+
 📖 查看 [完整文檔](CIPHER_COMPILER.md) 了解更多詳情。
 
 ## 項目結構
